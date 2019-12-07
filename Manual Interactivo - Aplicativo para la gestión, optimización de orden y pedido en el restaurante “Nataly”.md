@@ -1,2 +1,2 @@
 # Mealvice
-Manual innteractivo en youtbe:
+Manual interactivo en youtbe:
