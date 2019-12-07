@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.5
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-10-2019 a las 21:12:41
--- Versión del servidor: 10.1.30-MariaDB
--- Versión de PHP: 7.2.1
+-- Tiempo de generación: 07-12-2019 a las 20:46:06
+-- Versión del servidor: 10.1.38-MariaDB
+-- Versión de PHP: 7.1.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -26,20 +26,26 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarUsuario` (IN `id` INT(11), IN `nom` VARCHAR(120), IN `email` VARCHAR(40), IN `dir` VARCHAR(40), IN `tel` VARCHAR(40), IN `clav` VARCHAR(40), IN `rol` INT)  UPDATE usuario SET nombreUsuario = nom , emailUsuario = email , direccionUsuario = dir , telefono= tel, claveUsuario= clav, idRol= rol WHERE idUsuario = id$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `ActualizarUsuario` (IN `id` INT(11), IN `nom` VARCHAR(120), IN `email` VARCHAR(40), IN `dir` VARCHAR(40), IN `tel` VARCHAR(40), IN `clav` VARCHAR(40), IN `rol` INT)  UPDATE usuario SET nombreUsuario = nom , emailUsuario = email , direccionUsuario = dir , telefono= tel, claveUsuario= AES_ENCRYPT(clav, 'con'), idRol= rol WHERE idUsuario = id$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ConsultarUsuarioID` (IN `id` INT)  NO SQL
 SELECT * FROM usuario WHERE idUsuario = id$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `desencriptar` (IN `email` VARCHAR(30))  NO SQL
+SELECT `idUsuario`, `nombreUsuario`, `emailUsuario`, `direccionUsuario`, `telefono`, AES_DECRYPT (claveUsuario,'con'), `idRol` FROM `usuario` WHERE emailUsuario = email$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EliminarMesa` (IN `Mesa` INT(11))  UPDATE mesa set estadoMesa = 'deshabilitada', descripcionMesa = 'La mesa no esta disponible',capacidadMesa = capacidadMesa WHERE idMesa = Mesa$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insertarMesa` (IN `idMesa` INT(4), IN `capacidadMesa` INT(11), IN `descripcionMesa` VARCHAR(60))  Insert into mesa (idMesa , capacidadMesa, estadoMesa, descripcionMesa) Values (idMesa , capacidadMesa, "vacia", descripcionMesa)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `OcupadaMesa` (IN `Mesa` INT(11))  UPDATE mesa set estadoMesa = 'ocupada', descripcionMesa = 'La mesa esta ocupada',capacidadMesa = capacidadMesa WHERE idMesa = Mesa$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `OcupadaMesa` (IN `Mesa` INT(11))  UPDATE mesa set estadoMesa = 'Sin Pedido', descripcionMesa = 'La mesa esta sin pedido',capacidadMesa = capacidadMesa WHERE idMesa = Mesa$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `RecuperarContraseña` (IN `emailUsu` VARCHAR(40), IN `claveUsu` VARCHAR(20))  NO SQL
+UPDATE usuario SET  claveUsuario= AES_ENCRYPT(claveUsu, 'con') WHERE emailUsuario = emailUsu$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarProducto` (IN `idproducto` INT, IN `nombreProducto` VARCHAR(20), IN `precioProducto` DOUBLE, IN `tipoProducto` ENUM('Plato','Bebida','Adicional'), IN `estadoProducto` ENUM('Activo','Agotado'))  INSERT into producto (idProducto, nombreProducto, precioProducto, tipoProducto, estadoProducto)values(idproducto, nombreProducto, precioProducto, tipoProducto, estadoProducto)$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarUsuario` (IN `identificacionUsu` INT, IN `nombreUsu` VARCHAR(120), IN `emailUsu` VARCHAR(40), IN `direccionUsu` VARCHAR(40), IN `telefonoUsu` VARCHAR(20), IN `claveUsu` VARCHAR(20), IN `rolId` ENUM('Administrador','Mesero','Cocinero','Recepcionista'))  INSERT into usuario (idUsuario, nombreUsuario, emailUsuario, direccionUsuario, telefono, claveUsuario, idRol )values(identificacionUsu, nombreUsu, emailUsu, direccionUsu, telefonoUsu, claveUsu, rolId)$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `RegistrarUsuario` (IN `identificacionUsu` INT, IN `nombreUsu` VARCHAR(120), IN `emailUsu` VARCHAR(40), IN `direccionUsu` VARCHAR(40), IN `telefonoUsu` VARCHAR(20), IN `claveUsu` VARCHAR(20), IN `rolId` ENUM('Administrador','Mesero','Cocinero','Recepcionista'))  INSERT into usuario (idUsuario, nombreUsuario, emailUsuario, direccionUsuario, telefono, claveUsuario, idRol )values(identificacionUsu, nombreUsu, emailUsu, direccionUsu, telefonoUsu,AES_ENCRYPT(claveUsu, 'con') , rolId)$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spActualizarPedido` (`idPedido` INT(11), `idUsuario` INT(11), `idMesa` INT(11), `estadoPedido` ENUM('Espera','Preparando','Entregado'), `observacionPedido` VARCHAR(80))  UPDATE pedido SET estadoPedido = estadoPedido , observacionPedido = observacionPedido , idMesa = idMesa , idUsuario= idUsuario  WHERE idPedido =  idPedido$$
 
@@ -52,9 +58,15 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `spCambiarEstado_Vac` (`Mesa` INT)  
 CREATE DEFINER=`root`@`localhost` PROCEDURE `SPCartas` (`Cartaid` INT)  select * from consultarcartas where idcarta = Cartaid$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spConsultaEdetalleP` (IN `Pedido` INT(11))  NO SQL
-select * from detallepedido WHERE idPedido = Pedido$$
+SELECT p.idProducto, p.nombreProducto, dp.idPedido, SUM(dp.cantidad), dp.idDetallePedido
+from detallepedido dp INNER join producto p on dp.idProducto = p.idProducto
+where dp.idPedido = Pedido
+GROUP by p.nombreProducto$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spConsultaEpedido` (`pedido` INT)  SELECT * from pedido where idPedido = pedido$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spDisminuirCantidad` (IN `Pedido` INT, IN `Producto` INT)  NO SQL
+DELETE FROM detallepedido WHERE idProducto = Producto AND idPedido = Pedido LIMIT 1$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spEliminarProDet` (IN `id` INT, IN `idpro` INT)  NO SQL
 DELETE FROM detallecarta WHERE idCarta = id && idProducto = idpro$$
@@ -92,8 +104,8 @@ end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spSesion` (`email` VARCHAR(40))  SELECT * from usuario WHERE emailUsuario = email$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spValidarUsuario` (IN `emailUsu` VARCHAR(40), IN `claveUsu` VARCHAR(20))  SELECT * FROM usuario
-WHERE emailUsuario = emailUsu AND claveUsuario = claveUsu$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spValidarUsuario` (IN `emailUsu` VARCHAR(40), IN `claveUsu` VARCHAR(20))  SELECT idUsuario, nombreUsuario, emailUsuario, direccionUsuario,telefono,AES_DECRYPT(claveUsuario,'con'),idRol FROM usuario
+WHERE emailUsuario = emailUsu AND AES_DECRYPT(claveUsuario,'con') = claveUsu$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `VaciaMesa` (IN `Mesa` INT(11))  UPDATE mesa set estadoMesa = 'vacia', descripcionMesa = 'La mesa esta vacia y disponible para usar',capacidadMesa = capacidadMesa WHERE idMesa = Mesa$$
 
@@ -115,13 +127,7 @@ CREATE TABLE `carta` (
 --
 
 INSERT INTO `carta` (`idCarta`, `diaCarta`) VALUES
-(1, 'Lunes'),
-(2, 'Martes'),
-(3, 'Miercoles'),
-(4, 'Jueves'),
-(5, 'Martes'),
-(6, 'Sabado'),
-(7, 'Domingo');
+(1, 'Lunes');
 
 -- --------------------------------------------------------
 
@@ -153,22 +159,7 @@ CREATE TABLE `detallecarta` (
 --
 
 INSERT INTO `detallecarta` (`idCarta`, `idProducto`) VALUES
-(2, 2),
-(2, 23),
-(2, 23),
-(3, 2),
-(3, 23),
-(2, 1),
-(3, 3242),
-(4, 1),
-(4, 3242),
-(6, 2),
-(6, 3242),
-(7, 2),
-(7, 4),
-(1, 2),
-(1, 23),
-(1, 3242);
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -180,7 +171,7 @@ CREATE TABLE `detallepedido` (
   `idProducto` int(11) NOT NULL,
   `idPedido` int(11) NOT NULL,
   `cantidad` int(250) NOT NULL,
-  `idDetallePedido` int(11) DEFAULT NULL
+  `idDetallePedido` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -188,35 +179,15 @@ CREATE TABLE `detallepedido` (
 --
 
 INSERT INTO `detallepedido` (`idProducto`, `idPedido`, `cantidad`, `idDetallePedido`) VALUES
-(2, 1, 1, NULL),
-(1, 1, 4, NULL),
-(2, 1, 1, NULL),
-(1, 1, 4, NULL),
-(1, 2, 1, NULL),
-(2, 2, 1, NULL),
-(23, 2, 1, NULL),
-(1, 3, 1, NULL),
-(23, 3, 1, NULL),
-(3242, 3, 1, NULL),
-(-9, 3, 1, NULL),
-(4, 3, 1, NULL),
-(4, 3, 1, NULL),
-(23, 3, 2, NULL),
-(2, 4, 1, NULL),
-(1, 4, 1, NULL),
-(1, 4, 1, NULL),
-(4, 4, 1, NULL),
-(-9, 5, 1, NULL),
-(1, 5, 1, NULL),
-(1, 6, 1, NULL),
-(2, 6, 1, NULL),
-(4, 6, 1, NULL),
-(-9, 7, 1, NULL),
-(-9, 7, 1, NULL),
-(1, 7, 1, NULL),
-(2, 7, 1, NULL),
-(4, 7, 1, NULL),
-(2, 7, 1, NULL);
+(1, 1, 1, 2),
+(1, 2, 15, 16),
+(1, 3, 5, 19),
+(4, 4, 1, 20),
+(3, 4, 1, 21),
+(2, 4, 1, 22),
+(4, 5, 1, 23),
+(3, 5, 1, 24),
+(4, 5, 5, 25);
 
 -- --------------------------------------------------------
 
@@ -227,7 +198,7 @@ INSERT INTO `detallepedido` (`idProducto`, `idPedido`, `cantidad`, `idDetallePed
 CREATE TABLE `mesa` (
   `idMesa` int(4) NOT NULL,
   `capacidadMesa` int(2) NOT NULL,
-  `estadoMesa` enum('ocupada','vacia') NOT NULL,
+  `estadoMesa` enum('ocupada','vacia','Sin Pedido') NOT NULL,
   `descripcionMesa` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -236,14 +207,10 @@ CREATE TABLE `mesa` (
 --
 
 INSERT INTO `mesa` (`idMesa`, `capacidadMesa`, `estadoMesa`, `descripcionMesa`) VALUES
-(1, 0, 'ocupada', 'La mesa esta ocupada'),
-(2, 2, 'ocupada', 'capacidad de dos personas'),
-(4, 4, 'vacia', 'vacia'),
-(7, 2, '', 'La mesa no esta disponible'),
-(8, 8, 'ocupada', 'vacia'),
-(9, 1, 'ocupada', 'vacia'),
-(10, 5, 'vacia', 'vacia'),
-(21, 6, 'ocupada', 'La mesa esta vacia y disponible para usar');
+(1, 12, 'Sin Pedido', 'La mesa esta sin pedido'),
+(2, 3, 'ocupada', 'La mesa esta sin pedido'),
+(3, 4, 'ocupada', 'La mesa esta sin pedido'),
+(4, 5, 'vacia', 'La mesa esta sin pedido');
 
 -- --------------------------------------------------------
 
@@ -265,13 +232,11 @@ CREATE TABLE `pedido` (
 --
 
 INSERT INTO `pedido` (`idPedido`, `estadoPedido`, `idMesa`, `idUsuario`, `Subtotal`, `observacionPedido`) VALUES
-(1, 'Finalizado', 1, 1000858534, 0, 'Sin Observacion'),
-(2, 'Finalizado', 1, 12332, 0, 'Sin Observacion'),
-(3, 'Entregado', 9, 12332, 0, 'Sin Observacion'),
-(4, 'Entregado', 8, 12332, 0, 'Sin Observacion'),
-(5, 'Preparando', 21, 12332, 0, 'Sin Observacion'),
-(6, 'Entregado', 2, 12332, 0, 'Sin Observacion'),
-(7, 'Finalizado', 4, 12332, 0, 'Sin Observacion');
+(1, 'Espera', 1, 100098778, 0, 'Sin ensalada'),
+(2, 'Finalizado', 3, 100098778, 0, 'Sin ensalada'),
+(3, 'Finalizado', 4, 100098778, 0, 'Sin ensalada'),
+(4, 'Espera', 2, 100098778, 0, 'Sin ensalada'),
+(5, 'Espera', 3, 100098778, 0, 'Sin ensalada');
 
 -- --------------------------------------------------------
 
@@ -310,12 +275,11 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`idProducto`, `nombreProducto`, `precioProducto`, `tipoProducto`, `estadoProducto`) VALUES
-(-9, 'ensalada', -0, 'Plato', 'Agotado'),
-(1, 'Pasta', 2322, 'Plato', 'Agotado'),
-(2, 'Carne', 5000, 'Plato', 'Activo'),
-(4, 'maracuya', 5000, 'Bebida', 'Activo'),
-(23, 'pollo', -0, 'Bebida', 'Activo'),
-(3242, 'Limonada', 5000, 'Bebida', 'Activo');
+(1, 'Pollo', 20000, 'Plato', 'Activo'),
+(2, 'Carne en Salsa', 5000, 'Plato', 'Activo'),
+(3, 'Carne en guiso', 2500, 'Plato', 'Activo'),
+(4, 'Gaseosa Manzana 2.5', 2500, 'Bebida', 'Activo'),
+(5, 'Papas Fritas Porcion', 1000, 'Adicional', 'Activo');
 
 -- --------------------------------------------------------
 
@@ -370,15 +334,10 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`idUsuario`, `nombreUsuario`, `emailUsuario`, `direccionUsuario`, `telefono`, `claveUsuario`, `idRol`) VALUES
-(1, 'julio', 'julio@gmail.com', 'calle 34', '3215478744', '123', 1),
-(12332, 'Andres', 'andres@gmail.com', 'calle 32', '2234243', '123', 3),
-(10000000, 'MARIO', 'mario@gmail.com', 'calle 34', '321', '123456', 1),
-(10312901, 'Juan Jose ca', 'lemus090601@gmail.com', 'cll 31 c bis', '2342123', '345', 2),
-(552364572, 'Julian Cortes', 'julianC@gmail.com', 'Direccion12', '172122', '123', 1),
-(1000858534, 'Omar Andres Moreno Asprilla', 'oamoreno@gmail.com', 'calle 34', '123123123', '123', 2),
-(1000987654, 'Julian Camargo', 'julian@gmail.com', 'Direccion', '123123123', '1231', 3),
-(1222364572, 'Maria Luisa', 'Luisa@gmail.com', 'Direccion1', '1222122', '123', 3),
-(1234567891, 'Juan Lemus', 'jdlemus@gmail.com', 'calle 34', '3124578475', '123', 4);
+(100098778, 'Julian Farmin', 'mesero@gmail.com', 'calle 32 # 43 A sur', '3224546758', '??µÿL{ƒˆ}«JzO', 3),
+(100987756, 'Sara Martin', 'cocinero@gmail.com', 'calle 12 # 43 - 65', '3224545644', '??µÿL{ƒˆ}«JzO', 2),
+(1000858513, 'Omar Moreno', 'Administrado@mealvice.com', 'calle 34 # 45', '3209876654', '??µÿL{ƒˆ}«JzO', 1),
+(1002756473, 'Carla Martinez', 'recepcionista@gmail.com', 'Kr 22 # 69 - 45', '3214554344', '??µÿL{ƒˆ}«JzO', 4);
 
 -- --------------------------------------------------------
 
@@ -435,7 +394,8 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- Indices de la tabla `carta`
 --
 ALTER TABLE `carta`
-  ADD PRIMARY KEY (`idCarta`);
+  ADD PRIMARY KEY (`idCarta`),
+  ADD UNIQUE KEY `diaCarta` (`diaCarta`);
 
 --
 -- Indices de la tabla `detallecarta`
@@ -448,6 +408,7 @@ ALTER TABLE `detallecarta`
 -- Indices de la tabla `detallepedido`
 --
 ALTER TABLE `detallepedido`
+  ADD UNIQUE KEY `idDetallePedido` (`idDetallePedido`),
   ADD KEY `idProducto` (`idProducto`),
   ADD KEY `idPedido` (`idPedido`);
 
@@ -494,13 +455,19 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `carta`
 --
 ALTER TABLE `carta`
-  MODIFY `idCarta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idCarta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `detallepedido`
+--
+ALTER TABLE `detallepedido`
+  MODIFY `idDetallePedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `pedido`
 --
 ALTER TABLE `pedido`
-  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idPedido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `rol`
