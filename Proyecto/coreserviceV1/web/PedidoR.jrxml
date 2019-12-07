@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e89e3a1e-d72c-40f0-9f59-1021e3d7fe85">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="pedido" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     totalpedido.`Total` AS Total,
+     pedidos.`IdPedido` AS IdPedido,
+     pedidos.`Observacion` AS Observacion,
+     pedidos.`producto` AS producto,
+     pedidos.`Mesa` AS Mesa,
+     pedidos.`Precio` AS Precio,
+     pedidos.`Cantidad` AS Cantidad
+FROM
+     `totalpedido` totalpedido,
+     `pedidos` pedidos
+
+where pedidos.IdPedido = $P{pedido} and totalpedido.Idpedido = $P{pedido}]]>
+	</queryString>
+	<field name="Total" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="IdPedido" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Observacion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="producto" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Mesa" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Precio" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Cantidad" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="Mesa_1" class="java.lang.Integer" calculation="First">
+		<variableExpression><![CDATA[$F{Mesa}]]></variableExpression>
+	</variable>
+	<variable name="IdPedido_1" class="java.lang.Integer" calculation="First">
+		<variableExpression><![CDATA[$F{IdPedido}]]></variableExpression>
+	</variable>
+	<variable name="Precio_1" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="SUM(Precio*Cantidad)_1" class="java.lang.Double" resetType="Column" calculation="First">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="Precio_2" class="java.lang.Double" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="totalpedido_Total_1" class="java.lang.Double" resetType="Column" calculation="First">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<variable name="Total_1" class="java.lang.Double" resetType="Column" calculation="First">
+		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
+	</variable>
+	<variable name="Total_2" class="java.lang.Double" resetType="Column" calculation="First">
+		<variableExpression><![CDATA[$F{Total}]]></variableExpression>
+	</variable>
+	<variable name="IdPedido_2" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{IdPedido}]]></variableExpression>
+	</variable>
+	<variable name="Mesa_2" class="java.lang.Integer" calculation="First">
+		<variableExpression><![CDATA[$F{Mesa}]]></variableExpression>
+	</variable>
+	<variable name="Mesa_3" class="java.lang.Integer" calculation="First">
+		<variableExpression><![CDATA[$F{Mesa}]]></variableExpression>
+	</variable>
+	<variable name="IdPedido_3" class="java.lang.Integer" calculation="First">
+		<variableExpression><![CDATA[$F{IdPedido}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="132" splitType="Stretch">
+			<image>
+				<reportElement x="2" y="0" width="384" height="100" uuid="4a06c1fa-7f6e-4a99-b468-be073c71a391"/>
+				<imageExpression><![CDATA["img/Logo-nombre-2.png"]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement mode="Opaque" x="2" y="100" width="553" height="32" forecolor="#000000" backcolor="#CC3300" uuid="70367ea1-7156-4420-b106-ebf95a58736b"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="307" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="ab454431-d118-437f-9fb5-d65f981ebb32"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="144" y="8" width="100" height="20" uuid="77d7cf48-06f5-4755-937c-bc597defa461"/>
+					<text><![CDATA[MESA:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="3" y="8" width="100" height="20" uuid="04edbddf-bb97-4cfc-a64f-6e6c37e954b2"/>
+					<text><![CDATA[PEDIDO:]]></text>
+				</staticText>
+				<textField evaluationTime="Report">
+					<reportElement x="244" y="8" width="23" height="20" uuid="c5fdf4b6-f1a4-4d72-b624-1578851e8f55"/>
+					<textFieldExpression><![CDATA[$V{Mesa_3}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Report">
+					<reportElement x="103" y="8" width="41" height="20" uuid="84f3229b-c7bc-4ba4-847c-5262ff7e07ec"/>
+					<textFieldExpression><![CDATA[$V{IdPedido_3}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="0" width="100" height="20" uuid="ad0dc239-46af-4e13-8035-9ef504a1bfd3"/>
+				<text><![CDATA[producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="99" y="0" width="100" height="20" uuid="f16513b7-5415-4022-904f-853e362dbbb5"/>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="0" width="100" height="20" uuid="5b6eb50c-8c95-4f1e-9322-cd34c75722b5"/>
+				<text><![CDATA[Observacion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="0" width="100" height="20" uuid="20ff34c5-dead-4af9-ad4c-bbf0a1f66b83"/>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="433" y="9" width="62" height="20" uuid="0231da7e-74fc-46e5-a35f-89080df76a0f"/>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField evaluationTime="Column">
+				<reportElement x="475" y="9" width="100" height="20" uuid="6d809b22-f476-4d4b-ab78-ddc2bbb6fdbb"/>
+				<textFieldExpression><![CDATA[$V{Total_2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="55" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="-2" y="0" width="555" height="23" uuid="756f96c3-74a9-45bb-91c3-1db03b80899e"/>
+				<textField>
+					<reportElement x="4" y="0" width="100" height="20" uuid="95ac304f-83c2-4d08-b78c-bff22b72cf2d"/>
+					<textFieldExpression><![CDATA[$F{producto}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="104" y="0" width="100" height="20" uuid="a59b40da-1f5a-4e4a-9197-d4c12b852877"/>
+					<textFieldExpression><![CDATA[$F{Cantidad}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="335" y="0" width="100" height="20" uuid="5a8d3e37-431c-4ae9-a8e0-4312bcf2a87f"/>
+					<textFieldExpression><![CDATA[$F{Observacion}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="211" y="0" width="100" height="20" uuid="dfb6a44a-2228-4634-8437-b52eb5e4e1ee"/>
+					<textFieldExpression><![CDATA[$F{Precio}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="19" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="dbc919ed-998b-403d-ad04-0778c806e2d1"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000000" uuid="55f5bdf7-3137-4f49-a266-2070cb573b13"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF" uuid="ee6764bb-1456-4f13-b01b-acfa157ece8e"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="1" width="197" height="20" forecolor="#FFFFFF" uuid="10565df9-285d-4b9b-b405-79f710a4d43b"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="433" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="2600ba94-439f-40f1-805b-8f06b144d1d1"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
