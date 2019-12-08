@@ -1,2 +1,2 @@
 # Mealvice
-Manual interactivo en youtbe:
+Manual interactivo en youtube: https://youtu.be/Xgm5dxYPmtk
