@@ -58,7 +58,6 @@
                                         <li class="nav-item active"><a class="nav-link" href="#home">Inicio</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#about">Sobre Nosotros</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#modulos">Modulos</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#team">Equipo</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#contact">Contáctanos</a></li>
                                         
                                     </ul>
@@ -79,7 +78,34 @@
                     </div>
                 </div>
             </div>
+            <section>
+            <% if (request.getAttribute("MensajeError") != null) {%>
+                                <div class="alert alert-danger alert-dismissible fade show">
+                                    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
+                                        <i class="nc-icon nc-simple-remove"></i>
+                                    </button>
+                                    <span>
+                                        <b> Error - </b> El usuario y/o la contraseña son incorrectas,
+                                        o no se encuentra registrado en el sistema, verifique e intente nuevamente.</span>
+                                </div>
+                                <%}%>
+                                  <% if (request.getAttribute("MensajeExitoCon") != null) {%>
+
+                                                 <div class="alert alert-info">
+                                    
+                                    <strong>Información!</strong> Se ha enviado un una contraseña a su correo electronico.
+                                </div>
+                                                <%}%>
+                                 <% if (request.getAttribute("MensajeErrorCon") != null) {%>
+
+                                                 <div class="alert alert-info">
+                                    
+                                    <strong>Información!</strong> No se ha podido enviar el correo.
+                                </div>
+                                                <%}%>
+        </section>
         </header>
+        
         <!-- ***** Header Area End ***** -->
         <div class="modal fade" id="ModalIngresar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -112,30 +138,7 @@
                                         ¿Has olvidado tu contraseña?  <a data-toggle="modal" data-target="#ModalOlvidarContraseña" style="color: #A32727;">Haz clic aquí</a> y podrás recuperarla.
                                     </div>
                                 </div>
-                                <% if (request.getAttribute("MensajeError") != null) {%>
-                                <div class="alert alert-danger alert-dismissible fade show">
-                                    <button type="button" aria-hidden="true" class="close" data-dismiss="alert" aria-label="Close">
-                                        <i class="nc-icon nc-simple-remove"></i>
-                                    </button>
-                                    <span>
-                                        <b> Error - </b> El usuario y/o la contraseña son incorrectas,
-                                        o no se encuentra registrado en el sistema, verifique e intente nuevamente.</span>
-                                </div>
-                                <%}%>
-                                  <% if (request.getAttribute("MensajeExitoCon") != null) {%>
-
-                                                 <div class="alert alert-info">
-                                    
-                                    <strong>Información!</strong> Se ha enviado un una contraseña a su correo electronico.
-                                </div>
-                                                <%}%>
-                                 <% if (request.getAttribute("MensajeErrorCon") != null) {%>
-
-                                                 <div class="alert alert-info">
-                                    
-                                    <strong>Información!</strong> No se ha podido enviar el correo.
-                                </div>
-                                                <%}%>
+                                
                             </div>
                     </div>
                     <div class="modal-footer">
@@ -204,7 +207,7 @@
             </div>
         </section>
         <!-- ***** Wellcome Area End ***** -->
-
+        
         <!-- ***** Special Area Start ***** -->
         <section class="special-area bg-white section_padding_100" id="about">
             <div class="container">
@@ -223,15 +226,11 @@
                     <div class="col-12 col-md-4">
                         <div class="single-special text-center wow fadeInUp" data-wow-delay="0.2s">
                             <div class="single-icon">
-                                <i class="ti-direction" aria-hidden="true"></i>
+                                <i class="ti-heart" aria-hidden="true"></i>
                             </div>
-                            <h4>Sucursal 1</h4>
-                            <p>Esta sucursal se encuentra ubicada en el barrio x
-                                con
-                                <br>
-                                Direccion cll34 bis 79 60
-                                <br>
-                                Horario 8:50 - 10:00
+                            <h4>Origen</h4>
+                            <p>Mealvice nace con la intención de facilitar los 
+                                procesos para el restaurante "Nataly".
                             </p>
                         </div>
                     </div>
@@ -239,15 +238,12 @@
                     <div class="col-12 col-md-4">
                         <div class="single-special text-center wow fadeInUp" data-wow-delay="0.2s">
                             <div class="single-icon">
-                                <i class="ti-direction" aria-hidden="true"></i>
+                                <i class="ti-target" aria-hidden="true"></i>
                             </div>
-                            <h4>Sucursal 2</h4>
-                            <p>Esta sucursal se encuentra ubicada en el barrio x
-                                con
-                                <br>
-                                Direccion cll34 bis 79 60
-                                <br>
-                                Horario 8:50 - 10:00
+                            <h4>¿Hacia que público se dirige el istema?</h4>
+                            <p>Mealvice se dirige al sector productivo, para en este caso
+                                como restaurantes. Con la finalidad de que la empresa que utilice el sistema
+                                tenga una fácil gestión de la misma.
                             </p>
                         </div>
                     </div>
@@ -255,15 +251,12 @@
                     <div class="col-12 col-md-4">
                         <div class="single-special text-center wow fadeInUp" data-wow-delay="0.2s">
                             <div class="single-icon">
-                                <i class="ti-direction" aria-hidden="true"></i>
+                                <i class="ti-eye" aria-hidden="true"></i>
                             </div>
-                            <h4>Sucursal 3</h4>
-                            <p>Esta sucursal se encuentra ubicada en el barrio x
-                                con
-                                <br>
-                                Direccion cll34 bis 79 60
-                                <br>
-                                Horario 8:50 - 10:00
+                            <h4>Vision</h4>
+                            <p>En un futuro buscamos extender nuestros limites a empresas mucho más grandes
+                                y procesos mas complejos, asi mismo facilitar aun mas los procesos y poderlos aplicar
+                                en otros tipos de empresas.
                             </p>
                         </div>
                     </div>
@@ -280,22 +273,16 @@
                     <!-- App Screenshots Slides  -->
                     <div class="app_screenshots_slides owl-carousel">
                         <div class="single-shot">
-                            <img src="logEstilos/img/scr-img/app-1.jpg" alt="">
+                            <img src="img/Users/img1.jpg" alt="">
                         </div>
                         <div class="single-shot">
-                            <img src="logEstilos/img/scr-img/app-2.jpg" alt="">
+                            <img src="img/Users/img2.jpg" alt="">
                         </div>
                         <div class="single-shot">
-                            <img src="logEstilos/img/scr-img/app-3.jpg" alt="">
+                            <img src="img/Users/img3.jpg" alt="">
                         </div>
                         <div class="single-shot">
-                            <img src="logEstilos/img/scr-img/app-4.jpg" alt="">
-                        </div>
-                        <div class="single-shot">
-                            <img src="logEstilos/img/scr-img/app-5.jpg" alt="">
-                        </div>
-                        <div class="single-shot">
-                            <img src="logEstilos/img/scr-img/app-3.jpg" alt="">
+                            <img src="img/Users/img4.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -324,7 +311,7 @@
                         <!-- Client Feedback Text  -->
                         <div class="client-feedback-text text-center">
                             <div class="client-description text-center">
-                                <p>“Aqui irá todo sobre el módulo de productos”</p>
+                                <p>Módulo de Productos</p>
                             </div>
                             <div class="star-icon text-center">
                                 <i class="ion-ios-star"></i>
@@ -335,13 +322,13 @@
                             </div>
                             <div class="client-name text-center">
                                 <h5>Productos</h5>
-                                <p>efe</p>
+                                <p>Este módulo consta de la gestión respectiva a los productos.</p>
                             </div>
                         </div>
                         <!-- Client Feedback Text  -->
                         <div class="client-feedback-text text-center">
                             <div class="client-description text-center">
-                                <p>“Aqui irá todo sobre el modulo de mesas</p>
+                                <p>Módulo de Mesas</p>
                             </div>
                             <div class="star-icon text-center">
                                 <i class="ion-ios-star"></i>
@@ -352,13 +339,14 @@
                             </div>
                             <div class="client-name text-center">
                                 <h5>Mesas</h5>
-                                <p>efe</p>
+                                <p>En realción con el módulo de mesas, se podrá 
+                                    realizar una gestión en general sobre la disponibilidad de las mismas.</p>
                             </div>
                         </div>
                         <!-- Client Feedback Text  -->
                         <div class="client-feedback-text text-center">
                             <div class="client-description text-center">
-                                <p>“Aqui irá todo sobre el modulo de pedidos</p>
+                                <p>Módulo de Pedidos</p>
                             </div>
                             <div class="star-icon text-center">
                                 <i class="ion-ios-star"></i>
@@ -369,13 +357,13 @@
                             </div>
                             <div class="client-name text-center">
                                 <h5>Pedidos</h5>
-                                <p>efe</p>
+                                <p>Este modulo consta del registro de los pedidos correspondientes a cada mesa.</p>
                             </div>
                         </div>
                         <!-- Client Feedback Text  -->
                         <div class="client-feedback-text text-center">
                             <div class="client-description text-center">
-                                <p>“Aqui irá todo sobre el modulo de usuarios</p>
+                                <p>módulo de Usuarios</p>
                             </div>
                             <div class="star-icon text-center">
                                 <i class="ion-ios-star"></i>
@@ -386,7 +374,8 @@
                             </div>
                             <div class="client-name text-center">
                                 <h5>Usuarios</h5>
-                                <p>efe</p>
+                                <p>En este módulo se gestionará el acceso al 
+                                    sistema con su respectivo rol y sus funcionalidades.</p>
                             </div>
                         </div>
                     </div>
@@ -421,12 +410,12 @@
                     <div class="membership-description">
                         <h2>¿Quieres saber como es nuestro sistema?</h2>
                         <p>En el sisguiente enlace, podras encontrar un video ilustrativo
-                            en el cual </p>
+                            en el cual podras ver un pequeño vistazo de como es el sistema.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="get-started-button wow bounceInDown" data-wow-delay="0.5s">
-                        <a href="#">Video Ilustrativo</a>
+                        <a href="https://www.youtube.com/watch?v=Xgm5dxYPmtk&t=2s">!Haz Clic aquí¡</a>
                     </div>
                 </div>
             </div>
@@ -435,97 +424,7 @@
     <!-- ***** CTA Area End ***** -->
 
     <!-- ***** Our Team Area Start ***** -->
-    <section class="our-Team-area bg-white section_padding_100_50 clearfix" >
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <!-- Heading Text  -->
-                    <div class="section-heading">
-                        <h2>Equipo de trabajo</h2>
-                        <div class="line-shape"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="single-team-member">
-                        <div class="member-image">
-                            <img src="logEstilos/img/team-img/team-2.jpg" alt="">
-                            <div class="team-hover-effects">
-                                <div class="team-social-icon">
-                                    <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
-                                    <a href="#"> <i class="fa fa-instagram" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="member-text">
-                            <h4>Rene Triana</h4>
-                            <p>Desarrollador</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="single-team-member">
-                        <div class="member-image">
-                            <img src="logEstilos/img/team-img/team-2.jpg" alt="">
-                            <div class="team-hover-effects">
-                                <div class="team-social-icon">
-                                    <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
-                                    <a href="#"> <i class="fa fa-instagram" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="member-text">
-                            <h4>Cristian Quiroga</h4>
-                            <p>Negociador</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="single-team-member">
-                        <div class="member-image">
-                            <img src="logEstilos/img/team-img/team-3.jpg" alt="">
-                            <div class="team-hover-effects">
-                                <div class="team-social-icon">
-                                    <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
-                                    <a href="#"> <i class="fa fa-instagram" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="member-text">
-                            <h4>Juan Lemus</h4>
-                            <p>Diseñador</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <div class="single-team-member">
-                        <div class="member-image">
-                            <img src="logEstilos/img/team-img/team-4.jpg" alt="">
-                            <div class="team-hover-effects">
-                                <div class="team-social-icon">
-                                    <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                    <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
-                                    <a href="#"> <i class="fa fa-instagram" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="member-text">
-                            <h4>Omar Moreno</h4>
-                            <p>Lider</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
     <!-- ***** Our Team Area End ***** -->
 
     <!-- ***** Contact Us Area Start ***** -->
@@ -542,10 +441,10 @@
                         <p>Contactanos para saber mas informacion y realiza tu reserva</p>
                     </div>
                     <div class="address-text">
-                        <p><span>Email:</span> mealvicegrs@gmail.com</p>
+                        <p><span><i class="ti-email" aria-hidden="true"></i> Email:</span> mealvicegres@gmail.com</p>
                     </div>
                     <div class="address-text">
-                        <p><span>Telefono:</span> +57 (321) 425-5874</p>
+                        <p><span><i class="ti-headphone-alt" aria-hidden="true"></i> Telefono:</span> +57 (321) 425-5874</p>
                     </div>
 
 
@@ -575,9 +474,9 @@
         <div class="footer-menu">
             <nav>
                 <ul>
-                    <li><a href="#">Sobre Mealvice</a></li>
-                    <li><a href="#">Politicas de privacidad</a></li>
-                    <li><a href="#">Contactanos</a></li>
+                    <li><a href="#about">Sobre Mealvice</a></li>
+                    <li><a data-dismiss="modal" aria-label="Close">Politicas de privacidad</a></li>
+                    <li><a href="#contact">Contactanos</a></li>
                 </ul>
             </nav>
 
@@ -622,7 +521,7 @@
 
             <strong>COMPROBACIÓN ANTIFRAUDE</strong><p>La compra del cliente puede ser aplazada para la comprobación antifraude. También puede ser suspendida por más tiempo para una investigación más rigurosa, para evitar transacciones fraudulentas.</p>
 
-            <strong>PRIVACIDAD</strong><p>Este <a href="https://www.mealvicegrs.com" target="_blank">www.mealvicegrs.com</a> garantiza que la información personal que usted envía cuenta con la seguridad necesaria. Los datos ingresados por usuario o en el caso de requerir una validación de los pedidos no serán entregados a terceros, salvo que deba ser revelada en cumplimiento a una orden judicial o requerimientos legales.
+            <strong>PRIVACIDAD</strong><p>Este <a href="https://www.mealvicegres.com" target="_blank">www.mealvicegres.com</a> garantiza que la información personal que usted envía cuenta con la seguridad necesaria. Los datos ingresados por usuario o en el caso de requerir una validación de los pedidos no serán entregados a terceros, salvo que deba ser revelada en cumplimiento a una orden judicial o requerimientos legales.
                 La suscripción a boletines de correos electrónicos publicitarios es voluntaria y podría ser seleccionada al momento de crear su cuenta.
                 Mealvice reserva los derechos de cambiar o de modificar estos términos sin previo aviso.</p>
         </div>

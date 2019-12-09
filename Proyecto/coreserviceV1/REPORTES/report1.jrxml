@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bde19193-0f70-4254-94e5-80961eb59d41">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     pedidos.`detallepedido_idProducto` AS pedidos_detallepedido_idProducto,
+     pedidos.`detallepedido_cantidad` AS pedidos_detallepedido_cantidad,
+     pedidos.`detallepedido_idPedido` AS pedidos_detallepedido_idPedido,
+     pedidos.`pedido_idMesa` AS pedidos_pedido_idMesa,
+     pedidos.`pedido_observacionPedido` AS pedidos_pedido_observacionPedido,
+     pedidos.`producto_precioProducto` AS pedidos_producto_precioProducto,
+     pedidos.`producto_nombreProducto` AS pedidos_producto_nombreProducto
+FROM
+     `pedidos` pedidos where detallepedido_idPedido = $P{id}]]>
+	</queryString>
+	<field name="pedidos_detallepedido_idProducto" class="java.lang.Integer"/>
+	<field name="pedidos_detallepedido_cantidad" class="java.lang.Integer"/>
+	<field name="pedidos_detallepedido_idPedido" class="java.lang.Integer"/>
+	<field name="pedidos_pedido_idMesa" class="java.lang.Integer"/>
+	<field name="pedidos_pedido_observacionPedido" class="java.lang.String"/>
+	<field name="pedidos_producto_precioProducto" class="java.lang.Double"/>
+	<field name="pedidos_producto_nombreProducto" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="2" width="100" height="20" uuid="7855c1fa-3ddb-45a1-b56d-7870c083f710"/>
+				<text><![CDATA[pedidos_detallepedido_idPedido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="2" width="100" height="20" uuid="20c225fd-0a81-4e58-b89d-150cb50451d6"/>
+				<text><![CDATA[pedidos_producto_nombreProducto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="100" height="20" uuid="d111496c-815e-4fc0-af17-79d6a9ece457"/>
+				<text><![CDATA[pedidos_producto_precioProducto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="0" width="100" height="20" uuid="7bc8eb0b-fdfe-4bd0-abf7-71406430ba70"/>
+				<text><![CDATA[pedidos_pedido_observacionPedido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="0" width="100" height="20" uuid="13bce726-596f-4030-9c7f-f953006309c0"/>
+				<text><![CDATA[pedidos_detallepedido_cantidad]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="9e564f81-208b-4a97-852b-5ac82d0c52ca"/>
+				<textFieldExpression><![CDATA[$F{pedidos_detallepedido_idPedido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="20" uuid="0b8e50ea-157e-4c1f-96cf-a329dfc34d11"/>
+				<textFieldExpression><![CDATA[$F{pedidos_producto_nombreProducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="100" height="20" uuid="0eae4f62-7a85-4b14-b2c3-44c989affc99"/>
+				<textFieldExpression><![CDATA[$F{pedidos_producto_precioProducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="100" height="20" uuid="8065f1bb-0320-4357-be15-a59924ed3205"/>
+				<textFieldExpression><![CDATA[$F{pedidos_pedido_observacionPedido}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="100" height="20" uuid="2ed4f16c-3b80-4739-b399-1ff989c1943a"/>
+				<textFieldExpression><![CDATA[$F{pedidos_detallepedido_cantidad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
