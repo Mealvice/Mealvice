@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-12-2019 a las 20:46:06
+-- Tiempo de generación: 09-12-2019 a las 03:39:40
 -- Versión del servidor: 10.1.38-MariaDB
 -- Versión de PHP: 7.1.27
 
@@ -83,8 +83,8 @@ UPDATE pedido SET estadoPedido = 'Finalizado' WHERE idPedido = pedido;
 UPDATE mesa set estadoMesa = 'vacia' where idMesa = (SELECT idMesa from pedido where idPedido = pedido);
 end$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `spGuardar` (IN `IDpedido` INT, IN `observacion` VARCHAR(250))  NO SQL
-update pedido set observacionPedido = observacion where idPedido = IDpedido$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `spGuardar` (IN `Numpedido` INT, IN `observacion` VARCHAR(250))  NO SQL
+update pedido set observacionPedido = observacion where idPedido = Numpedido$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `spPrepararPedido` (`pedido` INT)  UPDATE pedido SET estadoPedido = 'Preparando' WHERE idPedido = pedido$$
 
@@ -210,7 +210,7 @@ INSERT INTO `mesa` (`idMesa`, `capacidadMesa`, `estadoMesa`, `descripcionMesa`) 
 (1, 12, 'Sin Pedido', 'La mesa esta sin pedido'),
 (2, 3, 'ocupada', 'La mesa esta sin pedido'),
 (3, 4, 'ocupada', 'La mesa esta sin pedido'),
-(4, 5, 'vacia', 'La mesa esta sin pedido');
+(4, 5, 'Sin Pedido', 'La mesa esta sin pedido');
 
 -- --------------------------------------------------------
 
@@ -232,11 +232,11 @@ CREATE TABLE `pedido` (
 --
 
 INSERT INTO `pedido` (`idPedido`, `estadoPedido`, `idMesa`, `idUsuario`, `Subtotal`, `observacionPedido`) VALUES
-(1, 'Espera', 1, 100098778, 0, 'Sin ensalada'),
-(2, 'Finalizado', 3, 100098778, 0, 'Sin ensalada'),
-(3, 'Finalizado', 4, 100098778, 0, 'Sin ensalada'),
-(4, 'Espera', 2, 100098778, 0, 'Sin ensalada'),
-(5, 'Espera', 3, 100098778, 0, 'Sin ensalada');
+(1, 'Espera', 1, 100098778, 0, 'Sin arroz'),
+(2, 'Finalizado', 3, 100098778, 0, 'Sin ensalada y sin papa'),
+(3, 'Finalizado', 4, 100098778, 0, 'Sin ensalada y sin papa'),
+(4, 'Espera', 2, 100098778, 0, 'Sin ensalada '),
+(5, 'Espera', 3, 100098778, 0, 'Sin ensalada y sin papa');
 
 -- --------------------------------------------------------
 
@@ -336,7 +336,7 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`idUsuario`, `nombreUsuario`, `emailUsuario`, `direccionUsuario`, `telefono`, `claveUsuario`, `idRol`) VALUES
 (100098778, 'Julian Farmin', 'mesero@gmail.com', 'calle 32 # 43 A sur', '3224546758', '??µÿL{ƒˆ}«JzO', 3),
 (100987756, 'Sara Martin', 'cocinero@gmail.com', 'calle 12 # 43 - 65', '3224545644', '??µÿL{ƒˆ}«JzO', 2),
-(1000858513, 'Omar Moreno', 'Administrado@mealvice.com', 'calle 34 # 45', '3209876654', '??µÿL{ƒˆ}«JzO', 1),
+(1000858513, 'Omar Moreno', 'administrador@mealvice.com', 'calle 34 # 45', '3209876654', '??µÿL{ƒˆ}«JzO', 1),
 (1002756473, 'Carla Martinez', 'recepcionista@gmail.com', 'Kr 22 # 69 - 45', '3214554344', '??µÿL{ƒˆ}«JzO', 4);
 
 -- --------------------------------------------------------
